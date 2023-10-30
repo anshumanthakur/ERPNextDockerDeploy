@@ -1,0 +1,48 @@
+{
+	"info": {
+		"_postman_id": "your_collection_id",
+		"name": "Sample API Collection",
+		"description": "A collection with two sample APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API 1",
+			"item": [
+				{
+					"name": "GET Request",
+					"request": {
+						"url": "https://api.example.com/api/resource1",
+						"method": "GET",
+						"description": "Get data from API 1"
+					}
+				},
+				{
+					"name": "POST Request",
+					"request": {
+						"url": "https://api.example.com/api/resource1",
+						"method": "POST",
+						"description": "Create data in API 1",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"key\": \"value\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "API 2",
+			"item": [
+				{
+					"name": "GET Request",
+					"request": {
+						"url": "https://api.example.com/api/resource2",
+						"method": "GET",
+						"description": "Get data from API 2"
+					}
+				}
+			]
+		}
+	]
+}

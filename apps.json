@@ -1,0 +1,18 @@
+[
+  {
+    "url": "https://github.com/frappe/payments",
+    "branch": "version-14"
+  },
+  {
+    "url": "https://github.com/frappe/health",
+    "branch": "version-14"
+  },
+  {
+    "url": "https://github.com/frappe/hrms",
+    "branch": "version-14"
+  },
+  {
+    "url": "your code repo with oauth token if private repo",
+    "branch": "main"
+  }
+]

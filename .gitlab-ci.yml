@@ -1,0 +1,52 @@
+stages:
+  - test
+  - deploy_erp
+  - dast
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/License-Scanning.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/DAST.gitlab-ci.yml
+  - template: DAST-API.gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml
+
+
+variables:
+  # DAST settings
+  DAST_WEBSITE: http://${Public_IP}:80/
+  # do a full scan
+  DAST_FULL_SCAN_ENABLED: "true"
+  DAST_API_PROFILE: Quick
+  DAST_API_POSTMAN_COLLECTION: postman_collection.json
+  DAST_API_TARGET_URL: http://test-deployment
+
+
+sast:
+  stage: test
+  artifacts:
+    paths:
+      - gl-sast-report.json
+      - gl-secret-detection-report.json
+  when: manual
+
+
+ssh_into_ec2:
+  stage: deploy_erp
+  image: docker:20.10.16
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 777 ~/.ssh
+  script:
+    - echo $SSH_PRIVATE_KEY > key.pem
+    - chmod +x entrypoint.sh
+    - ssh -o StrictHostKeyChecking=no ubuntu@${Public_IP} 'bash -s' < entrypoint.sh
+  when: manual
+
+secret_detection:
+  variables:
+    SECRET_DETECTION_HISTORIC_SCAN: "true"
+
